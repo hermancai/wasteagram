@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "235379606473",
+    "project_id": "wasteagram-bf5f2",
+    "storage_bucket": "wasteagram-bf5f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235379606473:android:6a8a9eec6ec05582791e18",
+        "android_client_info": {
+          "package_name": "edu.oregonstate.u933817067"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235379606473-es1o6oina6ooldl2gmps2i7l9pkben1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjNviZQJg7obRq9TXpZipEHpMSA6sA2Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235379606473-es1o6oina6ooldl2gmps2i7l9pkben1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235379606473:android:5f1307d8328f2ed8791e18",
+        "android_client_info": {
+          "package_name": "edu.oregonstate.u933817067.wasteagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235379606473-es1o6oina6ooldl2gmps2i7l9pkben1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjNviZQJg7obRq9TXpZipEHpMSA6sA2Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235379606473-es1o6oina6ooldl2gmps2i7l9pkben1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
