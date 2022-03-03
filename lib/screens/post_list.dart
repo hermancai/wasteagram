@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'new_post.dart';
+import 'post_single_view.dart';
 
 class PostList extends StatefulWidget {
   const PostList({Key? key}) : super(key: key);
@@ -46,7 +47,14 @@ class _PostListState extends State<PostList> {
                     data.docs[index].get("quantity").toString(),
                     style: const TextStyle(fontSize: 24),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => PostSingleView(data: data.docs[index])
+                      )
+                    );
+                  },
                 );
             }
           );
