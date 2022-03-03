@@ -38,7 +38,8 @@ class _PostListState extends State<PostList> {
               itemCount: data.size,
               separatorBuilder: (context, index) => const Divider(),
               itemBuilder: (context, index) {
-                return ListTile(
+                return Semantics(
+                  child: ListTile(
                   title: Text(
                     DateFormat.yMMMMEEEEd().format(data.docs[index].get("date").toDate()),
                     style: const TextStyle(fontSize: 22),
@@ -55,7 +56,11 @@ class _PostListState extends State<PostList> {
                       )
                     );
                   },
-                );
+                ),
+                label: "Post tile",
+                onTapHint: "Press to see post details",
+                enabled: true,
+              );
             }
           );
       }
@@ -79,10 +84,16 @@ class _PostListState extends State<PostList> {
     return Column(
       children: [
         Expanded(child: listOfPosts()),
-        ElevatedButton(
-          child: const Icon(Icons.camera_alt),
-          onPressed: () { getImage(); },
-        )
+        Semantics(
+          child: ElevatedButton(
+            child: const Icon(Icons.camera_alt),
+            onPressed: () { getImage(); },
+          ),
+          label: "New post button",
+          onTapHint: "Press to create a new post",
+          button: true,
+          enabled: true,
+        ),
       ],
     );
   }

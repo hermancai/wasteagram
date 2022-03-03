@@ -32,7 +32,11 @@ class PostSingleView extends StatelessWidget {
             const SizedBox(height: 40),
             SizedBox(
               height: _fractionScreenHeight(context, 0.4),
-              child: Image.network(data.get("imageURL")),
+              child: Semantics(
+                child: Image.network(data.get("imageURL")),
+                label: "Picture of post",
+                image: true,
+              )
             ),
             const SizedBox(height: 40),
             Text(

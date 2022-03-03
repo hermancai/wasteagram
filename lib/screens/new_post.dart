@@ -32,26 +32,31 @@ class _NewPostState extends State<NewPost> {
   Widget _inputForm() {
     return Form(
       key: formKey,
-      child: TextFormField(
-        autofocus: true,
-        style: const TextStyle(fontSize: 30),
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.all(10),
-          label: Center(child: Text("Number of Wasted Items")),
-          labelStyle: TextStyle(fontSize: 30),
-          errorStyle: TextStyle(fontSize: 20)
+      child: Semantics(
+        child: TextFormField(
+          autofocus: true,
+          style: const TextStyle(fontSize: 30),
+          keyboardType: TextInputType.number,
+          textAlign: TextAlign.center,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.all(10),
+            label: Center(child: Text("Number of Wasted Items")),
+            labelStyle: TextStyle(fontSize: 30),
+            errorStyle: TextStyle(fontSize: 20)
+          ),
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          onSaved: (value) { dto.quantity = int.parse(value!); },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "A number is required";
+            }
+            return null;
+          },
         ),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        onSaved: (value) { dto.quantity = int.parse(value!); },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "A number is required";
-          }
-          return null;
-        },
-      ),
+        label: "Number of wasted items",
+        textField: true,
+        focusable: true,
+      ) 
     );
   }
 
@@ -91,14 +96,20 @@ class _NewPostState extends State<NewPost> {
   }
 
   Widget _saveButton() {
-    return IconButton(
-      padding: const EdgeInsets.all(20),
-      iconSize: 100,
-      color: Colors.white,
-      onPressed: loading ? () {} : _savePost, 
-      icon: loading 
-        ? const CircularProgressIndicator(color: Colors.white) 
-        : const Icon(Icons.cloud_upload_outlined)
+    return Semantics(
+      child: IconButton(
+        padding: const EdgeInsets.all(20),
+        iconSize: 100,
+        color: Colors.white,
+        onPressed: loading ? () {} : _savePost, 
+        icon: loading 
+          ? const CircularProgressIndicator(color: Colors.white) 
+          : const Icon(Icons.cloud_upload_outlined)
+      ),
+      label: "Upload button",
+      onTapHint: "Press to save post",
+      button: true,
+      enabled: true,
     );
   }
 
@@ -118,9 +129,13 @@ class _NewPostState extends State<NewPost> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.file(
-              File(widget.image.path), 
-              height: _screenHeight(context) * 0.4
+            Semantics(
+              child: Image.file(
+                File(widget.image.path), 
+                height: _screenHeight(context) * 0.4
+              ),
+              label: "Photo to upload",
+              image: true,
             ),
             _inputForm(),
           ],
