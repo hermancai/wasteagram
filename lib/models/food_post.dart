@@ -1,13 +1,13 @@
-class SinglePost {
+class FoodPost {
   DateTime? date;
   String? imageURL;
   int? quantity;
   double? latitude;
   double? longitude;
 
-  SinglePost();
+  FoodPost();
 
-  SinglePost.fromMap(Map map) {
+  FoodPost.fromMap(Map map) {
     date = map["date"];
     imageURL = map["imageURL"];
     quantity = map["quantity"];

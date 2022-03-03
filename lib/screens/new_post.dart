@@ -5,7 +5,7 @@ import 'package:location/location.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import '../models/single_post.dart';
+import '../models/food_post.dart';
 
 class NewPost extends StatefulWidget {
   final XFile image;
@@ -18,7 +18,7 @@ class NewPost extends StatefulWidget {
 
 class _NewPostState extends State<NewPost> {
   final formKey = GlobalKey<FormState>();
-  final dto = SinglePost();
+  final dto = FoodPost();
   bool loading = false;
 
   double _screenHeight(BuildContext context) {
