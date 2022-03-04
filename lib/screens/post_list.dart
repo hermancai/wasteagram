@@ -14,9 +14,35 @@ class PostList extends StatefulWidget {
 }
 
 class _PostListState extends State<PostList> {
+  Stream<QuerySnapshot<Map<String, dynamic>>>? dbSnapshot;
+
+  @override 
+  void initState() {
+    super.initState();
+    dbSnapshot = FirebaseFirestore.instance.collection("posts").orderBy("date", descending: true).snapshots();
+  }
+
+  Widget _itemsTotal() {
+    return StreamBuilder(
+      stream: dbSnapshot,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Text("Wasteagram");
+        }
+
+        num total = 0;
+        for (var doc in snapshot.requireData.docs) {
+          total += doc.get("quantity");
+        }
+
+        return Text("Wasteagram - " + total.toString());
+      }
+    );
+  }
+
   Widget listOfPosts() {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection("posts").orderBy("date", descending: true).snapshots(),
+      stream: dbSnapshot,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));
@@ -77,11 +103,17 @@ class _PostListState extends State<PostList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(child: listOfPosts()),
-        CameraButton(tapEvent: getImage),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: _itemsTotal(),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Expanded(child: listOfPosts()),
+          CameraButton(tapEvent: getImage),
+        ],
+      )
     );
   }
 }

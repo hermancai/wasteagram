@@ -11,16 +11,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Wasteagram", 
-            style: TextStyle(fontSize: 24)
-          ),
-          centerTitle: true,
-        ),
-        body: const PostList(),
-      )
+      home: const PostList(),
     );
   }
 }
