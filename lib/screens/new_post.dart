@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/food_post.dart';
+import '../widgets/food_form.dart';
 
 class NewPost extends StatefulWidget {
   final XFile image;
@@ -27,37 +27,6 @@ class _NewPostState extends State<NewPost> {
 
   void toggleLoading() {
     setState(() { loading = !loading; });
-  }
-
-  Widget _inputForm() {
-    return Form(
-      key: formKey,
-      child: Semantics(
-        child: TextFormField(
-          autofocus: true,
-          style: const TextStyle(fontSize: 30),
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.all(10),
-            label: Center(child: Text("Number of Wasted Items")),
-            labelStyle: TextStyle(fontSize: 30),
-            errorStyle: TextStyle(fontSize: 20)
-          ),
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onSaved: (value) { dto.quantity = int.parse(value!); },
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "A number is required";
-            }
-            return null;
-          },
-        ),
-        label: "Number of wasted items",
-        textField: true,
-        focusable: true,
-      ) 
-    );
   }
 
   Future _getLocation() async {
@@ -137,7 +106,7 @@ class _NewPostState extends State<NewPost> {
               label: "Photo to upload",
               image: true,
             ),
-            _inputForm(),
+            FoodForm(formKey: formKey, dto: dto),
           ],
         ),
       )

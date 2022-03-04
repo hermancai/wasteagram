@@ -11,6 +11,41 @@ class PostSingleView extends StatelessWidget {
     return MediaQuery.of(context).size.height * fraction;
   }
 
+  Widget _columnDisplay(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          DateFormat.yMMMMEEEEd().format(data.get("date").toDate()),
+          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+
+        const SizedBox(height: 40),
+        SizedBox(
+          height: _fractionScreenHeight(context, 0.4),
+          child: Semantics(
+            child: Image.network(data.get("imageURL")),
+            label: "Picture of post",
+            image: true,
+          )
+        ),
+
+        const SizedBox(height: 40),
+        Text(
+          "Items: " + data.get("quantity").toString(),
+          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+        
+        const SizedBox(height: 20),
+        const Text("Location:", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+        Text(
+          data.get("latitude").toString() + ", " + data.get("longitude").toString(),
+          style: const TextStyle(fontSize: 20),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,37 +56,8 @@ class PostSingleView extends StatelessWidget {
           ),
         centerTitle: true,
         ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              DateFormat.yMMMMEEEEd().format(data.get("date").toDate()),
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 40),
-            SizedBox(
-              height: _fractionScreenHeight(context, 0.4),
-              child: Semantics(
-                child: Image.network(data.get("imageURL")),
-                label: "Picture of post",
-                image: true,
-              )
-            ),
-            const SizedBox(height: 40),
-            Text(
-              "Items: " + data.get("quantity").toString(),
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            const Text("Location:", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-            Text(
-              data.get("latitude").toString() + ", " + data.get("longitude").toString(),
-              style: const TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
-      )
+      body: Center(child: _columnDisplay(context)
+      ),
     );
   }
 }

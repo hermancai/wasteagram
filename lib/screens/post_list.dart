@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'new_post.dart';
 import 'post_single_view.dart';
+import '../widgets/camera_button.dart';
 
 class PostList extends StatefulWidget {
   const PostList({Key? key}) : super(key: key);
@@ -21,55 +22,50 @@ class _PostListState extends State<PostList> {
           return Center(child: Text(snapshot.error.toString()));
         }
 
-        if (!snapshot.hasData) {
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final data = snapshot.requireData;
+        return _listViewBuilder(snapshot.requireData);
+      }
+    );
+  }
 
-        return data.size == 0 
-          ? const Center(
-              child: Text(
-                "No posts!", 
-                style: TextStyle(fontSize: 30, color: Colors.green),
+  Widget _listViewBuilder(QuerySnapshot<Object?> data) {
+    return ListView.separated(
+      itemCount: data.size,
+      separatorBuilder: (context, index) => const Divider(),
+      itemBuilder: (context, index) {
+        return Semantics(
+          child: ListTile(
+          title: Text(
+            DateFormat.yMMMMEEEEd().format(data.docs[index].get("date").toDate()),
+            style: const TextStyle(fontSize: 22),
+          ),
+          trailing: Text(
+            data.docs[index].get("quantity").toString(),
+            style: const TextStyle(fontSize: 24),
+          ),
+          onTap: () {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context) => PostSingleView(data: data.docs[index])
               )
-            )
-          : ListView.separated(
-              itemCount: data.size,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                return Semantics(
-                  child: ListTile(
-                  title: Text(
-                    DateFormat.yMMMMEEEEd().format(data.docs[index].get("date").toDate()),
-                    style: const TextStyle(fontSize: 22),
-                  ),
-                  trailing: Text(
-                    data.docs[index].get("quantity").toString(),
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(
-                        builder: (context) => PostSingleView(data: data.docs[index])
-                      )
-                    );
-                  },
-                ),
-                label: "Post tile",
-                onTapHint: "Press to see post details",
-                enabled: true,
-              );
-            }
-          );
+            );
+          },
+          ),
+          label: "Post tile",
+          onTapHint: "Press to see post details",
+          enabled: true,
+        );
       }
     );
   }
 
   Future getImage() async {
-    var picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    ImagePicker picker = ImagePicker();
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image == null) return;
 
@@ -84,16 +80,7 @@ class _PostListState extends State<PostList> {
     return Column(
       children: [
         Expanded(child: listOfPosts()),
-        Semantics(
-          child: ElevatedButton(
-            child: const Icon(Icons.camera_alt),
-            onPressed: () { getImage(); },
-          ),
-          label: "New post button",
-          onTapHint: "Press to create a new post",
-          button: true,
-          enabled: true,
-        ),
+        CameraButton(tapEvent: getImage),
       ],
     );
   }
